@@ -3036,17 +3036,17 @@ a {
 }
 
 .call-center-journey__steps li:not(:last-child)::after {
-    content: "â†’";
+    content: "";
     position: absolute;
     top: 50%;
-    left: calc(100% + 7px);
-    width: 20px;
+    left: calc(100% + clamp(12px, 1.05vw, 17px));
+    width: 16px;
+    height: 16px;
     color: #005061;
-    font-family: var(--font-sans);
-    font-size: 1rem;
-    font-style: normal;
-    text-align: center;
-    transform: translateY(-50%);
+    background: currentColor;
+    -webkit-mask: url("/icons/accolade-arrow-right.svg") center / contain no-repeat;
+    mask: url("/icons/accolade-arrow-right.svg") center / contain no-repeat;
+    transform: translate(-50%, -50%);
 }
 
 .call-center-journey__number {
