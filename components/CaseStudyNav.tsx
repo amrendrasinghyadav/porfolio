@@ -94,6 +94,7 @@ export default function CaseStudyNav({ sections }: CaseStudyNavProps) {
             window.removeEventListener("resize", scheduleUpdate)
             if (frame.current !== null) {
                 window.cancelAnimationFrame(frame.current)
+                frame.current = null
             }
         }
     }, [sections, updateActiveSection])
