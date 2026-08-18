@@ -117,6 +117,10 @@ export const PROJECTS: Project[] = [
         cardHoverVideo: "/projects/project-2-hover.webm",
         cardHoverVideoFit: "contain",
         heroImage: "/projects/project-2-cover.webp",
+        client: "Accolade",
+        team: ["Product (Me)", "1 Software Engineer"],
+        timeline: "9 Weeks",
+        scope: "Desktop Web",
         badges: [
             { label: "Under Development", status: "neutral" },
             { label: "B2B SaaS" },
