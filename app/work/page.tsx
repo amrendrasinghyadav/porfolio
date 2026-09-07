@@ -40,7 +40,14 @@ export default function WorkPage() {
                         >
                             Namaste,{" "}
                         </span>
-                        <HeroTypingText text="I'm Amrendra" />
+                        <HeroTypingText text="I'm " />
+                        <Link
+                            className="work-hero__about-link"
+                            href="/about"
+                            aria-label="Amrendra — About"
+                        >
+                            Amrendra
+                        </Link>
                     </h1>
                     <p className="work-hero__lede">
                         A high-agency Product Designer crafting B2B products
