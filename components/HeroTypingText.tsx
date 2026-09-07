@@ -1,10 +1,15 @@
 "use client"
 
 import { useReducedMotion } from "framer-motion"
+import Link from "next/link"
 import { useCallback, useEffect, useRef, useState } from "react"
 
 type HeroTypingTextProps = {
     text: string
+    linkText?: string
+    linkHref?: string
+    linkClassName?: string
+    linkAriaLabel?: string
 }
 
 const INTRO_COMPLETE_EVENT = "portfolio:intro-complete"
@@ -15,10 +20,16 @@ const LETTER_DELAY_MS = 76
 
 export default function HeroTypingText({
     text,
+    linkText,
+    linkHref,
+    linkClassName,
+    linkAriaLabel,
 }: HeroTypingTextProps) {
     const reduceMotion = useReducedMotion() ?? false
+    const fullText = `${text}${linkText ?? ""}`
+    const hasInteractiveLink = Boolean(linkText && linkHref)
     const [visibleCharacters, setVisibleCharacters] = useState(
-        reduceMotion ? text.length : 0,
+        reduceMotion ? fullText.length : 0,
     )
     const hasStartedRef = useRef(false)
     const timersRef = useRef<number[]>([])
@@ -34,7 +45,7 @@ export default function HeroTypingText({
         hasStartedRef.current = true
         setVisibleCharacters(0)
 
-        text.split("").forEach((_, index) => {
+        fullText.split("").forEach((_, index) => {
             timersRef.current.push(
                 window.setTimeout(
                     () => setVisibleCharacters(index + 1),
@@ -42,20 +53,20 @@ export default function HeroTypingText({
                 ),
             )
         })
-    }, [reduceMotion, text])
+    }, [fullText, reduceMotion])
 
     const restartTyping = useCallback(() => {
         clearTimers()
 
         if (reduceMotion) {
             hasStartedRef.current = true
-            setVisibleCharacters(text.length)
+            setVisibleCharacters(fullText.length)
             return
         }
 
         hasStartedRef.current = false
         startTyping()
-    }, [clearTimers, reduceMotion, startTyping, text])
+    }, [clearTimers, fullText, reduceMotion, startTyping])
 
     useEffect(() => {
         if (reduceMotion) {
@@ -63,7 +74,7 @@ export default function HeroTypingText({
             clearTimers()
             timersRef.current.push(
                 window.setTimeout(
-                    () => setVisibleCharacters(text.length),
+                    () => setVisibleCharacters(fullText.length),
                     0,
                 ),
             )
@@ -116,16 +127,42 @@ export default function HeroTypingText({
         reduceMotion,
         restartTyping,
         startTyping,
-        text,
+        fullText,
     ])
 
+    const visibleText = fullText.slice(0, visibleCharacters)
+    const visiblePrefix = hasInteractiveLink
+        ? visibleText.slice(0, text.length)
+        : visibleText
+    const visibleLinkText = hasInteractiveLink
+        ? visibleText.slice(text.length)
+        : ""
+
     return (
-        <span className="hero-typing" aria-hidden="true">
-            <span className="hero-typing__measure">{text}</span>
+        <span
+            className="hero-typing"
+            aria-hidden={hasInteractiveLink ? undefined : true}
+        >
+            <span className="hero-typing__measure" aria-hidden="true">
+                {fullText}
+            </span>
             <span className="hero-typing__typed">
-                {text.slice(0, visibleCharacters)}
-                {visibleCharacters < text.length && (
-                    <span className="hero-typing__cursor" />
+                {hasInteractiveLink ? (
+                    <>
+                        <span aria-hidden="true">{visiblePrefix}</span>
+                        <Link
+                            className={linkClassName}
+                            href={linkHref!}
+                            aria-label={linkAriaLabel ?? linkText}
+                        >
+                            {visibleLinkText}
+                        </Link>
+                    </>
+                ) : (
+                    visiblePrefix
+                )}
+                {visibleCharacters < fullText.length && (
+                    <span className="hero-typing__cursor" aria-hidden="true" />
                 )}
             </span>
         </span>
