@@ -42,6 +42,7 @@ const FINAL_PRODUCT_SLIDES = Array.from({ length: 14 }, (_, index) => {
 type FinalProductSlidesProps = {
     slideImages?: readonly string[]
     slideVideos?: readonly (string | undefined)[]
+    slideAltText?: readonly string[]
     slideContent?: readonly {
         descriptionLead: string
         description: string
@@ -52,6 +53,7 @@ type FinalProductSlidesProps = {
 export default function FinalProductSlides({
     slideImages,
     slideVideos,
+    slideAltText,
     slideContent,
     slideCount = FINAL_PRODUCT_SLIDES.length,
 }: FinalProductSlidesProps) {
@@ -62,6 +64,9 @@ export default function FinalProductSlides({
         ...slide,
         ...(slideImages?.[index] ? { image: slideImages[index] } : {}),
         ...(slideVideos?.[index] ? { video: slideVideos[index] } : {}),
+        ...(slideAltText?.[index] !== undefined
+            ? { alt: slideAltText[index] }
+            : {}),
         ...(slideContent?.[index] ?? {}),
     }))
     const firstFinalProductSlide = finalProductSlides[0]

@@ -168,6 +168,20 @@ const PROJECT_TWO_FINAL_PRODUCT_IMAGES = [
     "/projects/project-2-final-product-11.webp",
 ] as const
 
+const PROJECT_TWO_FINAL_PRODUCT_ALT_TEXT = [
+    "Call Log interface showing searchable call records and filters",
+    "Call transcript interface showing a searchable completed conversation record",
+    "Record detail interface with an outbound call action and existing customer context",
+    "Incoming call screen showing the caller’s identity and community before answer",
+    "Live call workspace showing caller details, notes, and related property information",
+    "Live call workspace with a work order form for documenting a resident’s maintenance issue",
+    "Work order form showing assignment and scheduling controls during a live call",
+    "Call transfer interface for adding another agent before handing off the conversation",
+    "Live call interface for adding a follow-up reminder during the conversation",
+    "Live call workspace showing the caller’s recent communication history",
+    "Post-call wrap-up screen for reviewing captured information and completing the interaction record",
+] as const
+
 const DESIGN_DECISIONS = [
     {
         title: "Start simple, add details later",
@@ -1157,15 +1171,16 @@ export default async function ProjectPage({
                             Final Product
                         </span>
                         <h2 id="final-product-title">
-                            From organization setup to go-live
+                            {project.index === 2
+                                ? "From live conversations to connected workflows"
+                                : "From organization setup to go-live"}
                         </h2>
                     </div>
                     <div className="case-study-section__copy prose selectable">
                         <p>
-                            The final portal gave Accolade’s internal team one
-                            place to create organizations, complete setup,
-                            manage integrations, and track the information
-                            needed for go-live.
+                            {project.index === 2
+                                ? "The final experience brought call handling, caller context, operational tasks, and post-call review into one connected system. It enabled agents to manage conversations, complete relevant tasks, transfer calls without losing context, and maintain a comprehensive record of every interaction for future reference."
+                                : "The final portal gave Accolade’s internal team one place to create organizations, complete setup, manage integrations, and track the information needed for go-live."}
                         </p>
                         {project.index === 1 && (
                             <p>
@@ -1190,6 +1205,11 @@ export default async function ProjectPage({
                                     ? [
                                           "/projects/project-2-final-product-01.webm",
                                       ]
+                                    : undefined
+                            }
+                            slideAltText={
+                                project.index === 2
+                                    ? PROJECT_TWO_FINAL_PRODUCT_ALT_TEXT
                                     : undefined
                             }
                             slideContent={

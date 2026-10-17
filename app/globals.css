@@ -26,6 +26,7 @@
 
     --z-background: 0;
     --z-content: 1;
+    --z-header: 100;
 }
 
 /* Desktop gets roughly double the side margins for a more spacious, editorial
@@ -605,7 +606,7 @@ a {
 .site-header {
     position: sticky;
     top: clamp(12px, 2vh, 20px);
-    z-index: 3;
+    z-index: var(--z-header);
     display: flex;
     justify-content: center;
     margin-top: clamp(12px, 2vh, 20px);
@@ -782,7 +783,6 @@ a {
 /* Phones â€” collapse the links + CTA into a rounded dropdown behind a toggle. */
 @media (max-width: 640px) {
     .site-header {
-        z-index: 100;
         padding-inline: clamp(12px, 4vw, 24px);
     }
     .nav-bar {
