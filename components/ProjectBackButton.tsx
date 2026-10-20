@@ -3,9 +3,9 @@ import Link from "next/link"
 export default function ProjectBackButton() {
     return (
         <Link
-            href="/work"
+            href="/#selected-work"
             className="project-detail__rail-back"
-            aria-label="Back to Works"
+            aria-label="Back to Work"
         >
             <span
                 className="project-detail__rail-back-arrow"
@@ -13,7 +13,7 @@ export default function ProjectBackButton() {
             >
                 <span className="project-detail__rail-back-glyph" />
             </span>
-            <span className="project-detail__rail-back-label">Works</span>
+            <span className="project-detail__rail-back-label">Work</span>
         </Link>
     )
 }

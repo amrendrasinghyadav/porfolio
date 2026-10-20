@@ -9,7 +9,7 @@ const ABOUT_IMAGES = [
         objectPosition: "center",
     },
     {
-        src: "/about/about-image-2.webp",
+    src: "/about/about-image-2.png",
         alt: "Amrendra jumping across a stream in a grassy valley",
         objectPosition: "center",
     },
@@ -31,12 +31,6 @@ export default function AboutGallery() {
 
     return (
         <div className="about-gallery">
-            <div className="about-gallery__chrome" aria-hidden="true">
-                <span />
-                <span />
-                <span />
-            </div>
-
             <div className="about-gallery__stage">
                 <img
                     key={selectedImage.src}

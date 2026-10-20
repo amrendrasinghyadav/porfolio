@@ -1,3 +1,2 @@
-// The hero is the canonical landing state. The shared transition updates the
-// visible URL to /work only after the project cards have finished revealing.
+// The landing route shares the same static hero and project grid as /work.
 export { default } from "./work/page"

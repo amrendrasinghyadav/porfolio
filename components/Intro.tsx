@@ -1,7 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
-import { usePathname, useSearchParams } from "next/navigation"
+import { usePathname } from "next/navigation"
 
 function announceIntroComplete() {
     document.documentElement.dataset.portfolioIntroComplete = "true"
@@ -9,33 +9,12 @@ function announceIntroComplete() {
 }
 
 /**
- * Intro
- *
- * A cinematic, one-shot intro overlay that plays only when the hero route is
- * loaded directly.
- * It renders on top of the fully mounted portfolio and background (which stay
- * behind it the whole time), reveals a quote with a masked / blur / horizontal
- * distortion treatment, holds it, then compresses it out and fades the dark
- * overlay away to reveal the portfolio already in place — no reload, no shift.
- *
- * Timeline (see globals.css for the matching transition durations):
- *   0–400ms    dark screen
- *   400–1600   quote reveals   (1200ms transition)
- *   1100–1800  author reveals  (700ms transition)
- *   1800–4000  hold
- *   4000–4800  quote + author exit (800ms transition)
- *   4700–5500  overlay fades away (800ms transition), then unmounts
- *
- * Because it lives in the root layout, it can cover the fully mounted hero
- * without affecting other routes. Project and secondary routes skip it. Click
- * or press Escape to skip. Honors prefers-reduced-motion (simple fade).
+ * Cinematic opening overlay for direct visits to the landing page.
+ * Click or press Escape to skip. Reduced-motion preferences keep a simple fade.
  */
 export default function Intro() {
     const pathname = usePathname()
-    const searchParams = useSearchParams()
-    const [shouldPlay] = useState(
-        () => pathname === "/" && searchParams.get("reveal") !== "projects",
-    )
+    const [shouldPlay] = useState(() => pathname === "/")
     const [quoteIn, setQuoteIn] = useState(false)
     const [authorIn, setAuthorIn] = useState(false)
     const [exiting, setExiting] = useState(false)
@@ -53,7 +32,6 @@ export default function Intro() {
         done.current = true
         timers.current.forEach(clearTimeout)
         timers.current = []
-        // Jump straight to the exit, then fade + unmount quickly.
         setQuoteIn(true)
         setAuthorIn(true)
         setExiting(true)
@@ -63,7 +41,7 @@ export default function Intro() {
                 setRemoved(true)
                 unlock()
                 announceIntroComplete()
-            }, 900)
+            }, 900),
         )
     }, [])
 
@@ -86,8 +64,8 @@ export default function Intro() {
             announceIntroComplete()
         })
 
-        const onKey = (e: KeyboardEvent) => {
-            if (e.key === "Escape") skip()
+        const onKey = (event: KeyboardEvent) => {
+            if (event.key === "Escape") skip()
         }
         window.addEventListener("keydown", onKey)
 
@@ -112,7 +90,8 @@ export default function Intro() {
         >
             <figure className="intro__figure">
                 <blockquote className="intro__quote" data-state={quoteState}>
-                    “A river cuts through rock, not because of its power, but because of its persistence.”
+                    “A river cuts through rock, not because of its power, but
+                    because of its persistence.”
                 </blockquote>
                 <figcaption className="intro__author" data-state={authorState}>
                     ~ Jim Watkins

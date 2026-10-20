@@ -1,21 +1,11 @@
-// Single source of truth for the project list, shared by the Work grid and the
-// project detail pages so they never drift apart.
-//
-// These are portfolio-ready placeholders. Replace the copy and artwork with
-// real case-study content later; every card, preview, and detail route reads
-// from this shared source.
-
-export type Project = {
+type Project = {
     slug: string
     index: number
     title: string
     description: string
     image: string
-    cardHoverVideo?: string
-    cardHoverVideoFit?: "cover" | "contain"
-    cardHoverReplayDelay?: number
+    cardImages?: readonly [string, string, string, string]
     heroImage?: string
-    heroVideo?: string
     heroVideos?: readonly string[]
     client?: string
     team?: string[]
@@ -60,16 +50,28 @@ export type Project = {
     }
 }
 
-export const PROJECTS: Project[] = [
+function projectTitleToSlug(title: string): string {
+    return title
+        .normalize("NFKD")
+        .replace(/[’']/g, "")
+        .replace(/[^a-zA-Z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .toLowerCase()
+}
+
+const PROJECT_DEFINITIONS: Array<Omit<Project, "slug">> = [
     {
-        slug: "untangling-b2b-customer-onboarding",
         index: 1,
         title: "Untangling B2B Customer Onboarding",
         description:
             "Turning a fragmented provisioning process into one structured operational workflow.",
         image: "/projects/project-1-thumbnail.webp",
-        cardHoverVideo: "/projects/project-1-hover.webm",
-        cardHoverReplayDelay: 1000,
+        cardImages: [
+            "/projects/project-1-final-product-02.webp",
+            "/projects/project-1-final-product-03.webp",
+            "/projects/accolade-connected-communities.gif",
+            "/projects/project-1-final-product-04.webp",
+        ],
         client: "Accolade",
         team: [
             "Product Designer (me)",
@@ -108,14 +110,17 @@ export const PROJECTS: Project[] = [
         },
     },
     {
-        slug: "designing-an-e2e-call-center-experience",
         index: 2,
         title: "Designing an E2E Call Center Experience",
         description:
             "Connecting live calls with caller context, operational work, transfers, wrap-up, and post-call review.",
         image: "/projects/project-2-cover.webp",
-        cardHoverVideo: "/projects/project-2-hover.webm",
-        cardHoverVideoFit: "contain",
+        cardImages: [
+            "/projects/project-2-final-product-03.webp",
+            "/projects/project-2-final-product-04.webp",
+            "/projects/accolade-call-center.gif",
+            "/projects/project-2-final-product-05.webp",
+        ],
         heroImage: "/projects/project-2-cover.webp",
         client: "Accolade",
         team: ["Product (Me)", "1 Software Engineer"],
@@ -219,20 +224,30 @@ export const PROJECTS: Project[] = [
         },
     },
     {
-        slug: "contributing-to-accolades-design-system",
         index: 3,
         title: "Contributing to Accolade’s Design System",
         description:
             "A collection of reusable components and patterns I contributed while designing Accolade’s core product experiences.",
         image: "/projects/project-3-card.webp",
+        cardImages: [
+            "/projects/final-product-add-organization-empty-trimmed.svg",
+            "/projects/accolade-design-system.webp",
+            "/projects/project-3-card.webp",
+            "/projects/final-product-acco-frame-trimmed.svg",
+        ],
     },
     {
-        slug: "designing-a-process-development-platform",
         index: 4,
         title: "Designing a Process Development Platform",
         description:
             "Designing clearer, more connected workflows for scientists working across route planning, experimentation, and process simulation.",
         image: "/projects/project-4-thumbnail.webp",
+        cardImages: [
+            "/projects/project-4-card-01.jpg",
+            "/projects/project-4-card-02.jpg",
+            "/projects/project-4-molecule-card.png",
+            "/projects/project-4-card-03.jpg",
+        ],
         heroVideos: [
             "/projects/project-4-hero-02.webm",
             "/projects/project-4-hero-03.webm",
@@ -280,30 +295,17 @@ export const PROJECTS: Project[] = [
     },
 ]
 
+export const PROJECTS: Project[] = PROJECT_DEFINITIONS.map((project) => ({
+    ...project,
+    slug: projectTitleToSlug(project.title),
+}))
+
 export function getProject(slug: string): Project | undefined {
-    const legacySlugs: Record<string, string> = {
-        "project-1": "untangling-b2b-customer-onboarding",
-        "project-2": "designing-an-e2e-call-center-experience",
-        terrain: "designing-an-e2e-call-center-experience",
-        "project-3": "contributing-to-accolades-design-system",
-        "atlas-ai": "contributing-to-accolades-design-system",
-        "project-4": "designing-a-process-development-platform",
-        "common-ground": "designing-a-process-development-platform",
-    }
-    const canonicalSlug = legacySlugs[slug] ?? slug
-    return PROJECTS.find((p) => p.slug === canonicalSlug)
+    return PROJECTS.find((project) => project.slug === slug)
 }
 
-// Previous / next project (wraps around) for the detail-page footer nav.
-export function getAdjacent(slug: string): {
-    prev?: Project
-    next?: Project
-} {
-    const i = PROJECTS.findIndex((p) => p.slug === slug)
-    if (i === -1) return {}
-    const n = PROJECTS.length
-    return {
-        prev: PROJECTS[(i - 1 + n) % n],
-        next: PROJECTS[(i + 1) % n],
-    }
+export function getNextProject(slug: string): Project | undefined {
+    const index = PROJECTS.findIndex((project) => project.slug === slug)
+    if (index === -1) return undefined
+    return PROJECTS[(index + 1) % PROJECTS.length]
 }

@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { notFound, redirect } from "next/navigation"
+import { notFound } from "next/navigation"
 import CaseStudyNav from "@/components/CaseStudyNav"
 import FinalProductSlides from "@/components/FinalProductSlides"
 import OnboardingFlow from "@/components/OnboardingFlow"
@@ -8,7 +8,7 @@ import ProcessBoard from "@/components/ProcessBoard"
 import ProcessSlides from "@/components/ProcessSlides"
 import ProjectBackButton from "@/components/ProjectBackButton"
 import ProjectHeroVideos from "@/components/ProjectHeroVideos"
-import { PROJECTS, getProject, getAdjacent } from "../projects"
+import { PROJECTS, getNextProject, getProject } from "../projects"
 
 const CASE_STUDY_SECTIONS = [
     { id: "overview", label: "Overview" },
@@ -553,9 +553,8 @@ export default async function ProjectPage({
     const { slug } = await params
     const project = getProject(slug)
     if (!project) notFound()
-    if (slug !== project.slug) redirect(`/work/${project.slug}`)
 
-    const { next } = getAdjacent(slug)
+    const next = getNextProject(slug)
 
     return (
         <main className="shell project-detail">
@@ -568,17 +567,17 @@ export default async function ProjectPage({
                     </h2>
                 </div>
 
-                    <CaseStudyNav
-                        sections={
-                            project.index === 1
-                                ? PROJECT_ONE_CASE_STUDY_SECTIONS
-                                : project.index === 3
-                                  ? PROJECT_THREE_CASE_STUDY_SECTIONS
-                                : project.index === 4
-                                  ? PROJECT_FOUR_CASE_STUDY_SECTIONS
-                                : CASE_STUDY_SECTIONS
-                        }
-                    />
+                <CaseStudyNav
+                    sections={
+                        project.index === 1
+                            ? PROJECT_ONE_CASE_STUDY_SECTIONS
+                            : project.index === 3
+                              ? PROJECT_THREE_CASE_STUDY_SECTIONS
+                            : project.index === 4
+                              ? PROJECT_FOUR_CASE_STUDY_SECTIONS
+                            : CASE_STUDY_SECTIONS
+                    }
+                />
 
                 {next && (
                     <Link
@@ -635,26 +634,8 @@ export default async function ProjectPage({
                         videos={project.heroVideos}
                     />
                 ) : (
-                    <figure
-                        className={`project-detail__hero${
-                            project.heroVideo
-                                ? " project-detail__hero--video"
-                                : ""
-                        }`}
-                    >
-                        {project.heroVideo ? (
-                            <video
-                                src={project.heroVideo}
-                                autoPlay
-                                muted
-                                loop
-                                playsInline
-                                preload="metadata"
-                                aria-label={`${project.title} interface demonstration`}
-                            />
-                        ) : (
-                            <img src={project.heroImage ?? project.image} alt="" />
-                        )}
+                    <figure className="project-detail__hero">
+                        <img src={project.heroImage ?? project.image} alt="" />
                     </figure>
                 )}
 
