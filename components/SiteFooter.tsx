@@ -33,10 +33,14 @@ export default function SiteFooter() {
             setAboutOpen(false)
         }
 
+        const handleScroll = () => setAboutOpen(false)
+
         window.addEventListener("keydown", handleEscape)
+        window.addEventListener("scroll", handleScroll, { passive: true })
         document.addEventListener("pointerdown", handleOutsideClick)
         return () => {
             window.removeEventListener("keydown", handleEscape)
+            window.removeEventListener("scroll", handleScroll)
             document.removeEventListener("pointerdown", handleOutsideClick)
         }
     }, [aboutOpen])

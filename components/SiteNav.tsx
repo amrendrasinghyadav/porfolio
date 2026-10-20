@@ -47,7 +47,6 @@ export default function SiteNav() {
         setOpen(false)
         setAboutOpen(true)
         window.history.replaceState(null, "", "/#about")
-        window.scrollTo({ top: 0, behavior: "smooth" })
     }
 
     const openWork = (event: MouseEvent<HTMLAnchorElement>) => {
@@ -70,9 +69,6 @@ export default function SiteNav() {
 
             setOpen(false)
             setAboutOpen(true)
-            window.requestAnimationFrame(() => {
-                window.scrollTo({ top: 0, behavior: "smooth" })
-            })
         }
 
         syncAboutHash()
@@ -111,10 +107,19 @@ export default function SiteNav() {
             }
         }
 
+        const handleScroll = () => {
+            setAboutOpen(false)
+            if (window.location.hash === "#about") {
+                window.history.replaceState(null, "", pathname || "/")
+            }
+        }
+
         window.addEventListener("keydown", handleEscape)
+        window.addEventListener("scroll", handleScroll, { passive: true })
         document.addEventListener("pointerdown", handleOutsideClick)
         return () => {
             window.removeEventListener("keydown", handleEscape)
+            window.removeEventListener("scroll", handleScroll)
             document.removeEventListener("pointerdown", handleOutsideClick)
         }
     }, [aboutOpen, pathname])

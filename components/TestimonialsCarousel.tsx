@@ -27,11 +27,15 @@ const TESTIMONIALS = [
     },
 ] as const
 
+const TESTIMONIAL_LINE_LIMIT = 8
+
 export default function TestimonialsCarousel() {
     const [activeIndex, setActiveIndex] = useState(0)
     const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
     const [cardHeight, setCardHeight] = useState<number>()
+    const [overflowingIndexes, setOverflowingIndexes] = useState<Set<number> | null>(null)
     const contentRefs = useRef<Array<HTMLDivElement | null>>([])
+    const quoteRefs = useRef<Array<HTMLParagraphElement | null>>([])
 
     const showPrevious = useCallback(() => {
         setExpandedIndex(null)
@@ -74,6 +78,57 @@ export default function TestimonialsCarousel() {
         return () => resizeObserver.disconnect()
     }, [])
 
+    useEffect(() => {
+        const quotes = quoteRefs.current.filter(
+            (quote): quote is HTMLParagraphElement => Boolean(quote),
+        )
+
+        if (!quotes.length) return
+
+        const syncOverflow = () => {
+            const nextOverflowingIndexes = new Set<number>()
+
+            quoteRefs.current.forEach((quote, index) => {
+                if (!quote || !TESTIMONIALS[index].expandable) return
+
+                const lineHeight = Number.parseFloat(
+                    window.getComputedStyle(quote).lineHeight,
+                )
+                const clampedHeight = lineHeight * TESTIMONIAL_LINE_LIMIT
+
+                if (quote.scrollHeight > clampedHeight + 1) {
+                    nextOverflowingIndexes.add(index)
+                }
+            })
+
+            setOverflowingIndexes((current) => {
+                if (
+                    current &&
+                    current.size === nextOverflowingIndexes.size &&
+                    [...current].every((index) =>
+                        nextOverflowingIndexes.has(index),
+                    )
+                ) {
+                    return current
+                }
+
+                return nextOverflowingIndexes
+            })
+            setExpandedIndex((current) =>
+                current !== null && !nextOverflowingIndexes.has(current)
+                    ? null
+                    : current,
+            )
+        }
+
+        const resizeObserver = new ResizeObserver(syncOverflow)
+        quotes.forEach((quote) => resizeObserver.observe(quote))
+        document.fonts.ready.then(syncOverflow)
+        syncOverflow()
+
+        return () => resizeObserver.disconnect()
+    }, [])
+
     return (
         <section
             id="testimonials"
@@ -105,6 +160,12 @@ export default function TestimonialsCarousel() {
                                     TESTIMONIALS.length) %
                                 TESTIMONIALS.length
                             const isExpanded = expandedIndex === index
+                            const isOverflowing =
+                                overflowingIndexes === null
+                                    ? testimonial.expandable
+                                    : overflowingIndexes.has(index)
+                            const canExpand =
+                                testimonial.expandable && isOverflowing
                             const quoteId = `testimonial-quote-${index}`
 
                             return (
@@ -132,21 +193,23 @@ export default function TestimonialsCarousel() {
                                         className="peer-testimonial-card__content"
                                     >
                                         <p
+                                            ref={(node) => {
+                                                quoteRefs.current[index] = node
+                                            }}
                                             id={quoteId}
                                             className={`peer-testimonial-card__quote${
-                                                testimonial.expandable &&
-                                                !isExpanded
+                                                canExpand && !isExpanded
                                                     ? " peer-testimonial-card__quote--clamped"
                                                     : ""
                                             }${
-                                                testimonial.expandable
+                                                canExpand
                                                     ? " peer-testimonial-card__quote--expandable"
                                                     : ""
                                             }`}
                                         >
                                             {testimonial.quote}
                                         </p>
-                                        {testimonial.expandable ? (
+                                        {canExpand ? (
                                             <button
                                                 type="button"
                                                 className="peer-testimonial-card__read-more"
