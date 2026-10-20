@@ -26,7 +26,7 @@ export default function ProjectCardMedia({
                     src={leftImage}
                     alt=""
                     fill
-                    sizes="(max-width: 768px) 124px, 112px"
+                    sizes="(max-width: 768px) 148px, (max-width: 1050px) 128px, 156px"
                 />
             </span>
             <span className="shot shot-middle" aria-hidden="true">
@@ -34,7 +34,7 @@ export default function ProjectCardMedia({
                     src={middleImage}
                     alt=""
                     fill
-                    sizes="(max-width: 768px) 124px, 112px"
+                    sizes="(max-width: 768px) 148px, (max-width: 1050px) 128px, 156px"
                 />
             </span>
 
@@ -63,7 +63,7 @@ export default function ProjectCardMedia({
                     src={rightImage}
                     alt=""
                     fill
-                    sizes="(max-width: 768px) 124px, 112px"
+                    sizes="(max-width: 768px) 148px, (max-width: 1050px) 128px, 156px"
                 />
             </span>
 

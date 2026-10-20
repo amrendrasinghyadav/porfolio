@@ -84,9 +84,9 @@ export default function InteractiveWorkHero() {
                         Namaste, I&apos;m Amrendra
                     </h1>
                     <p className="work-hero__lede">
-                        A high-agency Product Designer crafting B2B products
-                        and taking ideas from messy problems to shipped
-                        experiences.
+                        I design B2B and AI-powered products with a systems
+                        mindset, connecting user needs, technical complexity,
+                        and business outcomes.
                     </p>
                 </div>
             </div>
@@ -184,17 +184,25 @@ export default function InteractiveWorkHero() {
                                 <span>
                                     <b>~ $</b> who_am_i
                                 </span>
-                                <em>Product Designer · B2B systems</em>
+                                <em>Product Designer · Enterprise and AI</em>
                                 <span>
-                                    <b>~ $</b> focus
+                                    <b>~ $</b> experience
                                 </span>
-                                <em>Clarity before decoration</em>
+                                <em>2 startups + freelance projects</em>
                                 {terminalExpanded ? (
                                     <>
                                         <span>
-                                            <b>~ $</b> currently
+                                            <b>~ $</b> think_in
                                         </span>
-                                        <em>Turning messy workflows into shipped experiences</em>
+                                        <em>Systems, workflows, and dependencies</em>
+                                        <span>
+                                            <b>~ $</b> optimize_for
+                                        </span>
+                                        <em>Usability, clarity, and business value</em>
+                                        <span>
+                                            <b>~ $</b> education
+                                        </span>
+                                        <em>National Institute of Design · Oct &apos;26</em>
                                     </>
                                 ) : null}
                                 <span className="hero-terminal__prompt">
