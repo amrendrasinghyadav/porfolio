@@ -1952,21 +1952,22 @@ a {
    Project detail page (/work/[slug]) â€” editorial, reading-width
    ========================================================================== */
 .project-detail {
-    /* Colin-inspired editorial type and color tokens, scoped to case studies
-       so the rest of the portfolio keeps its existing visual system. */
+    /* Editorial case-study system with the landing page's sage palette kept
+       deliberately quiet across text, dividers, and supporting surfaces. */
     --project-detail-font: "PP Neue Montreal Local", ui-sans-serif, system-ui,
         -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
     --font-sans: var(--project-detail-font);
     --font-mono: var(--project-detail-font);
     --font-instrument-serif: var(--project-detail-font);
-    --ink: #323c4f;
-    --ink-soft: #6b6e76;
-    --project-text-tertiary: #9ba1a5;
-    --deep: #323c4f;
-    --line: #e8e8e4;
-    --bg: #fcfcfa;
-    --hairline: rgba(50, 60, 79, 0.11);
-    --hairline-strong: rgba(50, 60, 79, 0.24);
+    --project-sage-rgb: 102, 120, 95;
+    --ink: #3c443c;
+    --ink-soft: #6e756c;
+    --project-text-tertiary: #98a093;
+    --deep: #66785f;
+    --line: #e4e8e1;
+    --bg: #fafaf8;
+    --hairline: rgba(var(--project-sage-rgb), 0.16);
+    --hairline-strong: rgba(var(--project-sage-rgb), 0.3);
     --project-column-gap: clamp(72px, 9vw, 220px);
     --project-rail-width: clamp(220px, 18vw, 260px);
     --project-page-inset: clamp(8px, 1vw, 16px);
@@ -2228,6 +2229,16 @@ a {
     display: block;
 }
 
+.project-detail__hero--blueprint {
+    aspect-ratio: auto;
+    background: #ffffff;
+}
+
+.project-detail__hero--blueprint img {
+    height: auto;
+    object-fit: contain;
+}
+
 .project-detail__hero--video-carousel {
     aspect-ratio: auto;
     display: grid;
@@ -2444,6 +2455,13 @@ a {
     display: flex;
     flex-direction: column;
 }
+
+.project-detail__hero--blueprint
+    + .case-study-sections
+    > .case-study-section:first-child {
+    border-top: 0;
+}
+
 .case-study-section {
     min-height: 0;
     padding-block: clamp(40px, 6vh, 72px);
@@ -2554,7 +2572,7 @@ a {
     margin: 0 0 18px;
     font-family: var(--font-sans);
     font-size: clamp(1.3rem, 1.6vw, 1.65rem);
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1;
     letter-spacing: -0.035em;
     color: var(--deep);
@@ -2566,7 +2584,7 @@ a {
     border-bottom: 1px solid var(--hairline);
     font-family: var(--font-sans);
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1.35;
     color: var(--ink);
 }
@@ -2618,7 +2636,7 @@ a {
     border-bottom: 1px solid var(--hairline);
     font-family: var(--font-sans);
     font-size: clamp(1.05rem, 1.4vw, 1.25rem);
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1.32;
     letter-spacing: -0.01em;
     color: var(--ink);
@@ -2681,10 +2699,10 @@ a {
     display: grid;
     place-items: center;
     margin-bottom: 22px;
-    border: 1px solid color-mix(in srgb, #323c4f 22%, #e5e5e5);
+    border: 1px solid color-mix(in srgb, var(--deep) 22%, var(--line));
     border-radius: 12px;
-    background: #323c4f14;
-    color: #323c4f;
+    background: rgba(var(--project-sage-rgb), 0.08);
+    color: var(--deep);
 }
 
 .reflection-card__icon svg {
@@ -2708,7 +2726,7 @@ a {
     border-bottom: 1px solid var(--hairline);
     font-family: var(--font-sans);
     font-size: clamp(1.05rem, 1.4vw, 1.25rem);
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1.32;
     letter-spacing: -0.01em;
     color: var(--ink);
@@ -2736,12 +2754,12 @@ a {
 }
 
 .process-slides {
-    --process-primary: #323c4f;
+    --process-primary: var(--deep);
     --process-text: #0a0a0a;
     --process-muted: #737373;
     --process-border: #e5e5e5;
     --process-background: #ffffff;
-    --process-tint: #323c4f14;
+    --process-tint: rgba(var(--project-sage-rgb), 0.08);
     width: 100%;
     margin-top: clamp(36px, 6vh, 72px);
     padding: clamp(10px, 1.5vw, 18px);
@@ -2777,11 +2795,11 @@ a {
     align-items: center;
     gap: 8px;
     padding: 9px 13px 9px 15px;
-    border: 1px solid rgba(50, 60, 79, 0.2);
+    border: 1px solid rgba(var(--project-sage-rgb), 0.22);
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.94);
     box-shadow: 0 10px 28px -12px rgba(var(--shadow-sage-rgb), 0.32);
-    color: #323c4f;
+    color: var(--deep);
     font-family: var(--font-sans);
     font-size: 0.7rem;
     font-weight: 650;
@@ -2866,12 +2884,12 @@ a {
 }
 
 .process-slides__frame--1 {
-    --frame-primary: #323c4f;
+    --frame-primary: var(--deep);
     --frame-text: #0a0a0a;
     --frame-muted: #737373;
     --frame-border: #e5e5e5;
     --frame-background: #ffffff;
-    --frame-tint: #323c4f14;
+    --frame-tint: rgba(var(--project-sage-rgb), 0.08);
     min-height: 560px;
     aspect-ratio: 16 / 9;
     grid-template-columns: minmax(310px, 1.08fr) minmax(250px, 0.92fr);
@@ -3050,7 +3068,7 @@ a {
     top: 100%;
     width: 1px;
     height: 28px;
-    background: #323c4f66;
+    background: rgba(var(--project-sage-rgb), 0.4);
 }
 
 .process-dependency-flow li:not(:last-child)::after {
@@ -3294,8 +3312,8 @@ a {
 }
 
 .process-slides__pagination button:first-child.is-active {
-    border-color: #323c4f;
-    box-shadow: 0 0 0 1px #323c4f;
+    border-color: var(--deep);
+    box-shadow: 0 0 0 1px var(--deep);
 }
 
 .process-slides__pagination button:hover {
@@ -3411,11 +3429,11 @@ a {
 }
 
 .final-product-slides {
-    --product-primary: #323c4f;
+    --product-primary: var(--deep);
     --product-text: #0a0a0a;
     --product-border: #e5e5e5;
     --product-background: #ffffff;
-    --product-tint: #323c4f14;
+    --product-tint: rgba(var(--project-sage-rgb), 0.08);
     --product-frame-gutter: clamp(10px, 1.5vw, 18px);
     width: 100%;
     margin-top: clamp(36px, 6vh, 72px);
@@ -3620,7 +3638,7 @@ a {
     border-bottom: 1px solid var(--hairline);
     font-family: var(--font-sans);
     font-size: clamp(1.05rem, 1.4vw, 1.25rem);
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1.3;
     letter-spacing: -0.01em;
     color: var(--ink);
@@ -3645,7 +3663,7 @@ a {
     margin: clamp(40px, 6vh, 68px) 0 0;
     padding: clamp(22px, 3vw, 38px);
     overflow: hidden;
-    border: 1px solid color-mix(in srgb, #323c4f 18%, #e5e5e5);
+    border: 1px solid color-mix(in srgb, var(--deep) 18%, var(--line));
     border-radius: 16px;
     background: #ffffff;
     box-shadow: 0 20px 54px -46px rgba(var(--shadow-sage-rgb), 0.42);
@@ -3693,7 +3711,7 @@ a {
     border-radius: 14px;
     background: #ffffff;
     box-shadow: 0 12px 26px -18px rgba(var(--shadow-sage-rgb), 0.34);
-    color: #323c4f;
+    color: var(--deep);
 }
 
 .onboarding-flow__number {
@@ -3705,14 +3723,14 @@ a {
     display: grid;
     place-items: center;
     border-radius: 50%;
-    border: 1px solid color-mix(in srgb, #323c4f 22%, #e5e5e5);
-    background: #323c4f14;
+    border: 1px solid color-mix(in srgb, var(--deep) 22%, var(--line));
+    background: rgba(var(--project-sage-rgb), 0.08);
     box-shadow: 0 4px 10px -7px rgba(var(--shadow-sage-rgb), 0.38);
     font-family: var(--font-sans);
     font-size: 0.76rem;
     font-weight: 600;
     line-height: 1;
-    color: #323c4f;
+    color: var(--deep);
 }
 
 .onboarding-flow__icon {
@@ -3721,14 +3739,14 @@ a {
     display: grid;
     place-items: center;
     border-radius: 50%;
-    background: #323c4f14;
+    background: rgba(var(--project-sage-rgb), 0.08);
 }
 
 .onboarding-flow__glyph {
     width: 24px;
     height: 24px;
     display: block;
-    background: #323c4f;
+    background: var(--deep);
     -webkit-mask-position: center;
     mask-position: center;
     -webkit-mask-repeat: no-repeat;
@@ -3756,7 +3774,7 @@ a {
     height: 24px;
     display: grid;
     place-items: center;
-    color: #323c4f;
+    color: var(--deep);
     transform: translateY(-50%);
 }
 
@@ -3904,7 +3922,7 @@ a {
     margin: 0;
     font-family: var(--font-sans);
     font-size: clamp(1rem, 1.2vw, 1.15rem);
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1.35;
     letter-spacing: -0.01em;
     text-align: center;
@@ -3917,10 +3935,10 @@ a {
     flex: 0 0 auto;
     display: grid;
     place-items: center;
-    border: 1px solid color-mix(in srgb, #323c4f 24%, var(--hairline));
+    border: 1px solid color-mix(in srgb, var(--deep) 24%, var(--hairline));
     border-radius: 14px;
-    background: #323c4f14;
-    color: #323c4f;
+    background: rgba(var(--project-sage-rgb), 0.08);
+    color: var(--deep);
 }
 
 .challenge-title-card__face--back ul {
@@ -3953,19 +3971,19 @@ a {
     width: 100%;
     margin-top: clamp(28px, 4vh, 44px);
     padding: clamp(18px, 2.4vw, 28px);
-    border: 1px solid color-mix(in srgb, #323c4f 16%, var(--hairline));
+    border: 1px solid color-mix(in srgb, var(--deep) 16%, var(--hairline));
     border-radius: 14px;
-    background: #323c4f0a;
+    background: rgba(var(--project-sage-rgb), 0.04);
 }
 
 .call-center-journey h3 {
     margin: 0 0 18px;
     font-family: var(--font-sans);
     font-size: clamp(0.82rem, 0.9vw, 0.92rem);
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1.35;
     letter-spacing: 0.01em;
-    color: #323c4f;
+    color: var(--deep);
 }
 
 .call-center-journey__viewport {
@@ -3973,7 +3991,7 @@ a {
     overflow-x: auto;
     overscroll-behavior-inline: contain;
     scrollbar-width: thin;
-    scrollbar-color: color-mix(in srgb, #323c4f 26%, transparent) transparent;
+    scrollbar-color: color-mix(in srgb, var(--deep) 26%, transparent) transparent;
 }
 
 .call-center-journey__steps {
@@ -3995,7 +4013,7 @@ a {
     justify-content: space-between;
     gap: 18px;
     padding: 16px;
-    border: 1px solid color-mix(in srgb, #323c4f 18%, var(--hairline));
+    border: 1px solid color-mix(in srgb, var(--deep) 18%, var(--hairline));
     border-radius: 12px;
     background: #fdfdfc;
 }
@@ -4007,7 +4025,7 @@ a {
     left: calc(100% + clamp(12px, 1.05vw, 17px));
     width: 16px;
     height: 16px;
-    color: #323c4f;
+    color: var(--deep);
     background: currentColor;
     -webkit-mask: url("/icons/accolade-arrow-right.svg") center / contain no-repeat;
     mask: url("/icons/accolade-arrow-right.svg") center / contain no-repeat;
@@ -4020,8 +4038,8 @@ a {
     display: grid;
     place-items: center;
     border-radius: 50%;
-    background: #323c4f14;
-    color: #323c4f;
+    background: rgba(var(--project-sage-rgb), 0.08);
+    color: var(--deep);
     font-family: var(--font-mono);
     font-size: 0.7rem;
     font-weight: 600;
@@ -4087,7 +4105,7 @@ a {
     margin: 0;
     font-family: var(--font-sans);
     font-size: clamp(1.125rem, 1.2vw, 1.375rem);
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1.35;
     letter-spacing: -0.01em;
     color: var(--ink);
@@ -4125,7 +4143,7 @@ a {
     border-bottom: 1px solid var(--hairline);
     font-family: var(--font-sans);
     font-size: clamp(1.05rem, 1.4vw, 1.25rem);
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1.32;
     letter-spacing: -0.01em;
     color: var(--ink);
@@ -4153,7 +4171,7 @@ a {
     margin: clamp(48px, 8vh, 88px) 0 0;
     font-family: var(--font-sans);
     font-size: clamp(1.125rem, 1.2vw, 1.375rem);
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1.35;
     letter-spacing: -0.01em;
     color: var(--ink);
@@ -4232,11 +4250,11 @@ a {
 
 .process-board__toolbar button:hover:not(:disabled),
 .process-board__toolbar button:focus-visible {
-    background: #323c4f14;
+    background: rgba(var(--project-sage-rgb), 0.08);
 }
 
 .process-board__toolbar button:focus-visible {
-    outline: 2px solid color-mix(in srgb, #323c4f 42%, transparent);
+    outline: 2px solid color-mix(in srgb, var(--deep) 42%, transparent);
     outline-offset: 1px;
 }
 
@@ -4254,7 +4272,10 @@ a {
     height: clamp(560px, 62vw, 820px);
     overflow: hidden;
     background-color: #f6f6f6;
-    background-image: radial-gradient(#323c4f22 1px, transparent 1px);
+    background-image: radial-gradient(
+        rgba(var(--project-sage-rgb), 0.13) 1px,
+        transparent 1px
+    );
     background-size: 24px 24px;
     cursor: -webkit-grab;
     cursor: grab;
@@ -4351,20 +4372,20 @@ a {
 
 @media (hover: hover) and (pointer: fine) {
     .process-board__thumbnail:hover {
-        border-color: color-mix(in srgb, #323c4f 50%, var(--hairline));
-        background: #323c4f0a;
+        border-color: color-mix(in srgb, var(--deep) 50%, var(--hairline));
+        background: rgba(var(--project-sage-rgb), 0.04);
     }
 }
 
 @media (hover: none), (pointer: coarse) {
     .process-board__thumbnail:active {
-        border-color: #323c4f;
-        background: #323c4f14;
+        border-color: var(--deep);
+        background: rgba(var(--project-sage-rgb), 0.08);
     }
 }
 
 .process-board__thumbnail:focus-visible {
-    outline: 2px solid #323c4f;
+    outline: 2px solid var(--deep);
     outline-offset: 2px;
 }
 

@@ -634,7 +634,13 @@ export default async function ProjectPage({
                         videos={project.heroVideos}
                     />
                 ) : (
-                    <figure className="project-detail__hero">
+                    <figure
+                        className={`project-detail__hero${
+                            project.index === 3
+                                ? " project-detail__hero--blueprint"
+                                : ""
+                        }`}
+                    >
                         <img src={project.heroImage ?? project.image} alt="" />
                     </figure>
                 )}

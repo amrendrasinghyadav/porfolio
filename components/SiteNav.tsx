@@ -131,6 +131,12 @@ export default function SiteNav() {
 
         const update = () => {
             frame = 0
+
+            // A scroll event can fire after a client-side navigation has
+            // started but before this effect has been replaced. Do not let
+            // the outgoing Work page overwrite the destination URL.
+            if (window.location.pathname !== pathname) return
+
             const selectedWorkTop = selectedWork
                 ? selectedWork.getBoundingClientRect().top
                 : Number.POSITIVE_INFINITY

@@ -9,8 +9,8 @@ const ABOUT_IMAGES = [
         objectPosition: "center",
     },
     {
-    src: "/about/about-image-2.png",
-        alt: "Amrendra jumping across a stream in a grassy valley",
+        src: "/about/about-image-2-gallery.webp",
+        alt: "Cloudy mountain landscape with terraced fields and a winding pond",
         objectPosition: "center",
     },
     {

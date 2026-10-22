@@ -229,6 +229,7 @@ const PROJECT_DEFINITIONS: Array<Omit<Project, "slug">> = [
         description:
             "A collection of reusable components and patterns I contributed while designing Accolade’s core product experiences.",
         image: "/projects/project-3-card-design-system.webp",
+        heroImage: "/projects/project-3-case-study-hero.webp",
         cardImages: [
             "/projects/final-product-add-organization-empty-trimmed.svg",
             "/projects/accolade-design-system.webp",
