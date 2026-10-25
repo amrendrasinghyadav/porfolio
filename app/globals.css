@@ -319,6 +319,9 @@ a {
 
 .hero-note {
     width: 220px;
+    aspect-ratio: 1278 / 1230;
+    background: url("/hero/handwritten-working-note.webp") center / contain
+        no-repeat;
 }
 
 .hero-note__image {

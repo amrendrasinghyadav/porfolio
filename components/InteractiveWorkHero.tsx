@@ -131,6 +131,7 @@ export default function InteractiveWorkHero() {
                             draggable={false}
                             sizes="220px"
                             loading="eager"
+                            unoptimized
                         />
                     </article>
                 </DeskObject>
