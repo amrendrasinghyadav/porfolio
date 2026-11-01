@@ -42,6 +42,38 @@ const PROCESS_SLIDES = [
     },
 ] as const
 
+const UNIT_TURNS_FIRST_SLIDE = {
+    label: "",
+    title: "Understanding the Workflow",
+    description:
+        "Breaking down the unit turnover process to understand how inspections, work orders, scheduling, and dependencies connect.",
+} as const
+
+const UNIT_TURNS_SECOND_SLIDE = {
+    label: "",
+    title: "Structuring the Experience",
+    description:
+        "Organizing the workflow into template creation, turn tracking, and task management.",
+} as const
+
+const UNIT_TURNS_THIRD_SLIDE = {
+    label: "",
+    title: "Exploring and Refining",
+    description:
+        "Working through layouts and interactions to make the experience clearer and easier to use.",
+} as const
+
+const UNIT_TURNS_FLOW = [
+    { title: "Lease End", icon: "/icons/accolade-building-2.svg" },
+    {
+        title: "Move-out\nInspection",
+        icon: "/icons/accolade-file-check-2.svg",
+    },
+    { title: "Work Orders", icon: "/icons/accolade-wrench.svg" },
+    { title: "Final\nInspection", icon: "/icons/accolade-file-check-2.svg" },
+    { title: "Unit Ready", icon: "/icons/accolade-circle-check.svg" },
+] as const
+
 const SYSTEM_NODES = [
     { label: "Owners & Admins", className: "owners" },
     { label: "Communities", className: "communities" },
@@ -163,7 +195,205 @@ function WorkflowStateCoverage() {
     )
 }
 
-export default function ProcessSlides() {
+function UnitTurnsWorkflowVisual() {
+    return (
+        <div className="unit-turns-workflow-slide">
+            <div className="unit-turns-workflow-slide__intro">
+                <h3>Understanding the Workflow</h3>
+                <p>
+                    Breaking down the unit turnover process to understand how
+                    inspections, work orders, scheduling, and dependencies
+                    connect.
+                </p>
+            </div>
+
+            <div className="unit-turns-workflow-slide__flow">
+                {UNIT_TURNS_FLOW.slice(0, 3).map((stage, index) => (
+                    <div
+                        className="unit-turns-workflow-slide__stage"
+                        key={stage.title}
+                    >
+                        {index === 1 && (
+                            <span className="unit-turns-workflow-slide__inspection-note">
+                                <span>From inspection results</span>
+                            </span>
+                        )}
+                        <img src={stage.icon} alt="" aria-hidden="true" />
+                        <strong>
+                            {stage.title.split("\n").map((line) => (
+                                <span key={line}>{line}</span>
+                            ))}
+                        </strong>
+                    </div>
+                ))}
+
+                <div className="unit-turns-workflow-slide__repairs">
+                    <strong>Repairs &amp; Tasks</strong>
+                    <ul>
+                        <li>Painting</li>
+                        <li>Cleaning</li>
+                        <li>Flooring</li>
+                    </ul>
+                    <span>Some tasks can run in parallel</span>
+                </div>
+
+                {UNIT_TURNS_FLOW.slice(3).map((stage) => (
+                    <div
+                        className={[
+                            "unit-turns-workflow-slide__stage",
+                            stage.title === "Unit Ready" ? "is-ready" : "",
+                        ]
+                            .filter(Boolean)
+                            .join(" ")}
+                        key={stage.title}
+                    >
+                        <img src={stage.icon} alt="" aria-hidden="true" />
+                        <strong>
+                            {stage.title.split("\n").map((line) => (
+                                <span key={line}>{line}</span>
+                            ))}
+                        </strong>
+                    </div>
+                ))}
+            </div>
+        </div>
+    )
+}
+
+function UnitTurnsStructureVisual() {
+    const stages = [
+        {
+            title: "Turn Template",
+            description: "Define a repeatable turn process",
+            icon: "/icons/accolade-file-check-2.svg",
+            accent: false,
+        },
+        {
+            title: "Turn Tracking",
+            description: "Monitor each unit’s progress",
+            icon: "/icons/accolade-workflow.svg",
+            accent: true,
+        },
+        {
+            title: "Task Management",
+            description: "Assign, schedule, and complete work",
+            icon: "/icons/accolade-list-checks.svg",
+            accent: false,
+        },
+    ] as const
+
+    return (
+        <div className="unit-turns-structure-slide">
+            <div className="unit-turns-structure-slide__intro">
+                <h3>Structuring the Experience</h3>
+                <p>
+                    Organizing the workflow into template creation, turn
+                    tracking, and task management.
+                </p>
+            </div>
+
+            <div className="unit-turns-structure-slide__flow">
+                {stages.map((stage) => (
+                    <div
+                        className={[
+                            "unit-turns-structure-slide__stage",
+                            stage.accent ? "is-accent" : "",
+                        ]
+                            .filter(Boolean)
+                            .join(" ")}
+                        key={stage.title}
+                    >
+                        <img src={stage.icon} alt="" aria-hidden="true" />
+                        <strong>{stage.title}</strong>
+                        <p>{stage.description}</p>
+                    </div>
+                ))}
+            </div>
+
+            <p className="unit-turns-structure-slide__caption">
+                A connected workflow from setup to completion
+            </p>
+        </div>
+    )
+}
+
+function UnitTurnsRefinementVisual() {
+    const stages = [
+        {
+            title: "Layout Explorations",
+            description: "Tested structure and hierarchy",
+            visual: "layout",
+            accent: false,
+        },
+        {
+            title: "Interaction Patterns",
+            description: "Refined actions and flows",
+            visual: "interaction",
+            accent: true,
+        },
+        {
+            title: "Refined Experience",
+            description: "Improved clarity and usability",
+            visual: "refined",
+            accent: false,
+        },
+    ] as const
+
+    return (
+        <div className="unit-turns-structure-slide unit-turns-refinement-slide">
+            <div className="unit-turns-structure-slide__intro">
+                <h3>Exploring and Refining</h3>
+                <p>
+                    Working through layouts and interactions to make the
+                    experience clearer and easier to use.
+                </p>
+            </div>
+
+            <div className="unit-turns-structure-slide__flow">
+                {stages.map((stage) => (
+                    <div
+                        className={[
+                            "unit-turns-structure-slide__stage",
+                            stage.accent ? "is-accent" : "",
+                        ]
+                            .filter(Boolean)
+                            .join(" ")}
+                        key={stage.title}
+                    >
+                        <span
+                            className={`unit-turns-refinement-slide__mock is-${stage.visual}`}
+                            aria-hidden="true"
+                        >
+                            <i />
+                            <i />
+                            <i />
+                        </span>
+                        <strong>{stage.title}</strong>
+                        <p>{stage.description}</p>
+                    </div>
+                ))}
+            </div>
+
+            <p className="unit-turns-structure-slide__caption">
+                Iterating from structure to clarity
+            </p>
+        </div>
+    )
+}
+
+export default function ProcessSlides({
+    variant = "onboarding",
+}: {
+    variant?: "onboarding" | "unit-turns"
+}) {
+    const slides =
+        variant === "unit-turns"
+            ? [
+                  UNIT_TURNS_FIRST_SLIDE,
+                  UNIT_TURNS_SECOND_SLIDE,
+                  UNIT_TURNS_THIRD_SLIDE,
+              ]
+            : PROCESS_SLIDES
     const [activeIndex, setActiveIndex] = useState(0)
 
     const showPrevious = () => {
@@ -172,7 +402,7 @@ export default function ProcessSlides() {
 
     const showNext = () => {
         setActiveIndex((current) =>
-            (current + 1) % PROCESS_SLIDES.length,
+            (current + 1) % slides.length,
         )
     }
 
@@ -206,15 +436,27 @@ export default function ProcessSlides() {
                     className="process-slides__track"
                     style={{ transform: `translateX(-${activeIndex * 100}%)` }}
                 >
-                    {PROCESS_SLIDES.map((slide, index) => (
+                    {slides.map((slide, index) => (
                         <article
-                            className={`process-slides__frame process-slides__frame--${
-                                index + 1
-                            }`}
+                            className={[
+                                "process-slides__frame",
+                                "process-slides__frame--" + (index + 1),
+                                variant === "unit-turns" && index < 3
+                                    ? `process-slides__frame--unit-turns-${index + 1}`
+                                    : "",
+                            ]
+                                .filter(Boolean)
+                                .join(" ")}
                             aria-hidden={activeIndex !== index}
                             key={slide.title}
                         >
-                            {index === 0 ? (
+                            {variant === "unit-turns" && index === 0 ? (
+                                <UnitTurnsWorkflowVisual />
+                            ) : variant === "unit-turns" && index === 1 ? (
+                                <UnitTurnsStructureVisual />
+                            ) : variant === "unit-turns" && index === 2 ? (
+                                <UnitTurnsRefinementVisual />
+                            ) : index === 0 ? (
                                 <SystemMap />
                             ) : index === 1 ? (
                                 <DependencyFlow />
@@ -224,6 +466,7 @@ export default function ProcessSlides() {
                                 <WorkflowStateCoverage />
                             )}
 
+                            {!(variant === "unit-turns" && index < 3) && (
                             <div className="process-slides__copy">
                                 <span>{slide.label}</span>
                                 <h3>{slide.title}</h3>
@@ -238,6 +481,7 @@ export default function ProcessSlides() {
                                     </div>
                                 )}
                             </div>
+                            )}
                         </article>
                     ))}
                 </div>
@@ -248,7 +492,7 @@ export default function ProcessSlides() {
                     className="process-slides__pagination"
                     aria-label="Choose a process frame"
                 >
-                    {PROCESS_SLIDES.map((slide, index) => (
+                    {slides.map((slide, index) => (
                         <button
                             className={
                                 activeIndex === index ? "is-active" : undefined

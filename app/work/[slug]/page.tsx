@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import CaseStudyNav from "@/components/CaseStudyNav"
@@ -29,17 +30,21 @@ const PROJECT_ONE_CASE_STUDY_SECTIONS = [
     { id: "reflections", label: "Reflections" },
 ] as const
 
+const PROJECT_THREE_CASE_STUDY_SECTIONS = [
+    { id: "overview", label: "Overview" },
+    { id: "overview-impact", label: "Impact" },
+    { id: "challenge", label: "Challenge" },
+    { id: "strategy", label: "Process" },
+    { id: "impact", label: "Decisions" },
+    { id: "final-product", label: "Final Product" },
+    { id: "reflections", label: "Reflections" },
+] as const
+
 const PROJECT_FOUR_CASE_STUDY_SECTIONS = [
     { id: "overview", label: "Overview" },
     { id: "challenge", label: "Challenge" },
     { id: "strategy", label: "Solution" },
     { id: "reflections", label: "Reflections" },
-] as const
-
-const PROJECT_THREE_CASE_STUDY_SECTIONS = [
-    { id: "objective", label: "Objective" },
-    { id: "my-role", label: "My Role" },
-    { id: "final-product", label: "Final Product" },
 ] as const
 
 const PROJECT_ONE_FINAL_PRODUCT_IMAGES = [
@@ -555,6 +560,7 @@ export default async function ProjectPage({
     if (!project) notFound()
 
     const next = getNextProject(slug)
+    const overviewFlow = project.overview?.flow
 
     return (
         <main className="shell project-detail">
@@ -634,22 +640,15 @@ export default async function ProjectPage({
                         videos={project.heroVideos}
                     />
                 ) : (
-                    <figure
-                        className={`project-detail__hero${
-                            project.index === 3
-                                ? " project-detail__hero--blueprint"
-                                : ""
-                        }`}
-                    >
+                    <figure className="project-detail__hero">
                         <img src={project.heroImage ?? project.image} alt="" />
                     </figure>
                 )}
 
-                {project.index !== 3 && (
-                    <dl
-                        className="project-detail__summary"
-                        aria-label="Project summary"
-                    >
+                <dl
+                    className="project-detail__summary"
+                    aria-label="Project summary"
+                >
                     <div>
                         <dt>Client</dt>
                         <dd>{project.client ?? "[ client ]"}</dd>
@@ -678,88 +677,15 @@ export default async function ProjectPage({
                         <dt>Scope</dt>
                         <dd>{project.scope ?? "[ scope ]"}</dd>
                     </div>
-                    </dl>
-                )}
+                </dl>
 
                 <div className="case-study-sections">
-                {project.index === 3 ? (
-                    <>
-                        <section
-                            id="objective"
-                            className="case-study-section"
-                            aria-labelledby="objective-title"
-                        >
-                            <div className="case-study-section__head">
-                                <h2 id="objective-title">Objective</h2>
-                            </div>
-                            <div className="case-study-section__copy prose selectable">
-                                <p>
-                                    While working on Accolade’s core products,
-                                    new component needs often surfaced through
-                                    real product use cases. Whenever an existing
-                                    pattern wasn’t sufficient, I contributed by
-                                    designing or extending reusable components
-                                    that could support both the immediate
-                                    requirement and future use across the
-                                    product.
-                                </p>
-                            </div>
-                        </section>
-
-                        <section
-                            id="my-role"
-                            className="case-study-section"
-                            aria-labelledby="my-role-title"
-                        >
-                            <div className="case-study-section__head">
-                                <h2 id="my-role-title">My Role</h2>
-                            </div>
-                            <div className="case-study-section__copy prose selectable">
-                                <p>
-                                    As a Product Designer, I contributed to
-                                    Accolade’s design system alongside my work
-                                    on the core product experience. When new UI
-                                    or interaction needs emerged, I helped
-                                    design, adapt, and extend reusable
-                                    components, often building on shadcn
-                                    patterns to make them suitable for
-                                    Accolade’s product and future use cases.
-                                </p>
-                                <p>
-                                    My contributions included patterns such as
-                                    empty states, contextual sidebars, alert
-                                    dialogs, and toast notifications.
-                                </p>
-                            </div>
-                        </section>
-
-                        <section
-                            id="final-product"
-                            className="case-study-section"
-                            aria-labelledby="final-product-title"
-                        >
-                            <div className="case-study-section__head">
-                                <h2 id="final-product-title">Final Product</h2>
-                            </div>
-                            <figure className="project-three-final-product">
-                                <img
-                                    src="/projects/accolade-design-system.webp"
-                                    alt="Accolade design system components, including empty states, contextual sidebars, alert dialogs, and toast notifications"
-                                />
-                            </figure>
-                        </section>
-                    </>
-                ) : (
-                    <>
                 <section
                     id="overview"
                     className="case-study-section"
                     aria-labelledby="overview-title"
                 >
-                    <div className="case-study-section__head case-study-section__head--with-label">
-                        <span className="case-study-section__metadata-label">
-                            Overview
-                        </span>
+                    <div className="case-study-section__head">
                         <h2 id="overview-title">
                             {project.overview?.title ?? "Overview"}
                         </h2>
@@ -802,6 +728,41 @@ export default async function ProjectPage({
                         )}
                     </div>
 
+                    {overviewFlow && (
+                        <ol
+                            className="overview-flow selectable"
+                            aria-label="Unit turnover workflow"
+                        >
+                            {overviewFlow.map((step, index) => (
+                                <li key={step.title}>
+                                    <article className="overview-flow__card">
+                                        <span
+                                            className="overview-flow__icon"
+                                            aria-hidden="true"
+                                        >
+                                            <Image
+                                                src={step.icon}
+                                                alt=""
+                                                width={24}
+                                                height={24}
+                                            />
+                                        </span>
+                                        <div>
+                                            <h3>{step.title}</h3>
+                                            <p>{step.body}</p>
+                                        </div>
+                                    </article>
+                                    {index < overviewFlow.length - 1 && (
+                                        <span
+                                            className="overview-flow__connector"
+                                            aria-hidden="true"
+                                        />
+                                    )}
+                                </li>
+                            ))}
+                        </ol>
+                    )}
+
                     {project.overview?.cards && (
                         <div className="overview-area-cards selectable">
                             {project.overview.cards.map((card) => (
@@ -809,10 +770,36 @@ export default async function ProjectPage({
                                     className="overview-area-card"
                                     key={card.title}
                                 >
-                                    <h3>{card.title}</h3>
-                                    <p>{card.body}</p>
+                                    {card.icon && (
+                                        <span
+                                            className="overview-area-card__icon"
+                                            aria-hidden="true"
+                                        >
+                                            <Image
+                                                src={card.icon}
+                                                alt=""
+                                                width={24}
+                                                height={24}
+                                            />
+                                        </span>
+                                    )}
+                                    <div className="overview-area-card__content">
+                                        <h3>{card.title}</h3>
+                                        <p>{card.body}</p>
+                                    </div>
                                 </article>
                             ))}
+                        </div>
+                    )}
+
+                    {project.overview?.helpItems && (
+                        <div className="overview-help selectable">
+                            <h3>{project.overview.helpTitle}</h3>
+                            <ul>
+                                {project.overview.helpItems.map((item) => (
+                                    <li key={item}>{item}</li>
+                                ))}
+                            </ul>
                         </div>
                     )}
 
@@ -827,16 +814,49 @@ export default async function ProjectPage({
 
                 </section>
 
+                {project.overviewImpact && (
+                    <section
+                        id="overview-impact"
+                        className="case-study-section"
+                        aria-labelledby="overview-impact-title"
+                    >
+                        <div className="case-study-section__head">
+                            <h2 id="overview-impact-title">Impact</h2>
+                        </div>
+                        <div className="impact-outcomes selectable">
+                            {project.overviewImpact.outcomes.map((outcome) => (
+                                <article
+                                    className="impact-outcome-card"
+                                    key={outcome.title}
+                                >
+                                    <div className="impact-outcome-card__heading">
+                                        <span
+                                            className="impact-outcome-card__icon"
+                                            aria-hidden="true"
+                                        >
+                                            <Image
+                                                src={outcome.icon}
+                                                alt=""
+                                                width={24}
+                                                height={24}
+                                            />
+                                        </span>
+                                        <h3>{outcome.title}</h3>
+                                    </div>
+                                    <p>{outcome.body}</p>
+                                </article>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
                 {project.index === 1 && (
                     <section
                         id="overview-impact"
                         className="case-study-section"
                         aria-labelledby="overview-impact-title"
                     >
-                        <div className="case-study-section__head case-study-section__head--with-label">
-            <span className="case-study-section__metadata-label">
-                Impact
-            </span>
+                        <div className="case-study-section__head">
             <h2 id="overview-impact-title">How success was defined</h2>
         </div>
                                 <div className="case-study-section__copy prose selectable">
@@ -889,10 +909,7 @@ export default async function ProjectPage({
                     className="case-study-section"
                     aria-labelledby="challenge-title"
                 >
-                    <div className="case-study-section__head case-study-section__head--with-label">
-                        <span className="case-study-section__metadata-label">
-                            Challenge
-                        </span>
+                    <div className="case-study-section__head">
                         <h2 id="challenge-title">
                             {project.challenge?.title ?? "Challenge"}
                         </h2>
@@ -979,6 +996,57 @@ export default async function ProjectPage({
                         </div>
                     )}
 
+                    {project.challenge?.summaryCards && (
+                        <div className="challenge-summary-cards selectable">
+                            {project.challenge.summaryCards.map((card) => (
+                                <article
+                                    className="challenge-summary-card"
+                                    key={card.title}
+                                >
+                                    <span
+                                        className="challenge-summary-card__icon"
+                                        aria-hidden="true"
+                                    >
+                                        <Image
+                                            src={card.icon}
+                                            alt=""
+                                            width={24}
+                                            height={24}
+                                        />
+                                    </span>
+                                    <p className="challenge-summary-card__eyebrow">
+                                        {card.eyebrow}
+                                    </p>
+                                    <h3>{card.title}</h3>
+                                    <p>{card.body}</p>
+                                </article>
+                            ))}
+                        </div>
+                    )}
+
+                    {project.challenge?.detailCards && (
+                        <ol className="strategy-cards challenge-detail-cards selectable">
+                            {project.challenge.detailCards.map((card) => (
+                                <li key={card.title}>
+                                    <div className="challenge-detail-cards__content">
+                                        <h3>{card.title}</h3>
+                                        <p>{card.body}</p>
+                                    </div>
+                                    {card.image && (
+                                        <figure className="challenge-detail-cards__image">
+                                            <Image
+                                                src={card.image.src}
+                                                alt={card.image.alt}
+                                                width={1254}
+                                                height={1254}
+                                            />
+                                        </figure>
+                                    )}
+                                </li>
+                            ))}
+                        </ol>
+                    )}
+
                     {project.index === 2 && (
                         <div className="call-center-journey selectable">
                             <h3>Journey before the designs existed</h3>
@@ -1046,41 +1114,63 @@ export default async function ProjectPage({
                     className="case-study-section"
                     aria-labelledby="strategy-title"
                 >
-                    <div className="case-study-section__head case-study-section__head--with-label">
-                        <span className="case-study-section__metadata-label">
-                            {project.index === 4 ? "Solution" : "Process"}
-                        </span>
+                    <div className="case-study-section__head">
                         <h2 id="strategy-title">
                             {project.strategy?.title ??
                                 (project.index === 4 ? "Solution" : "Strategy")}
                         </h2>
                     </div>
-                    <div className="case-study-section__copy prose selectable">
-                        {project.strategy ? (
+                    {(!project.strategy?.cards ||
+                        project.strategy.cards.length === 0) && (
+                        <div className="case-study-section__copy prose selectable">
+                            {project.strategy ? (
                             project.strategy.paragraphs.map((paragraph) => (
                                 <p key={paragraph}>{paragraph}</p>
                             ))
-                        ) : (
-                            <>
-                                <p>
-                                    [ Strategy placeholder — explain the
-                                    principles, priorities, and design
-                                    decisions that shaped your approach. ]
-                                </p>
-                                <p>
-                                    [ Add the alternatives you considered and
-                                    why this direction best addressed the
-                                    identified challenge. ]
-                                </p>
-                            </>
-                        )}
-                    </div>
+                            ) : (
+                                <>
+                                    <p>
+                                        [ Strategy placeholder — explain the
+                                        principles, priorities, and design
+                                        decisions that shaped your approach. ]
+                                    </p>
+                                    <p>
+                                        [ Add the alternatives you considered and
+                                        why this direction best addressed the
+                                        identified challenge. ]
+                                    </p>
+                                </>
+                            )}
+                        </div>
+                    )}
 
-                    {project.index === 1 ? (
-                        <ProcessSlides />
+                    {project.strategy?.cards && (
+                        <ol className="strategy-cards selectable">
+                            {project.strategy.cards.map((card, index) => (
+                                <li key={card.title}>
+                                    <span className="strategy-cards__number">
+                                        {String(index + 1).padStart(2, "0")}
+                                    </span>
+                                    <h3>{card.title}</h3>
+                                    <p>{card.body}</p>
+                                </li>
+                            ))}
+                        </ol>
+                    )}
+
+                    {project.index === 1 || project.index === 3 ? (
+                        <ProcessSlides
+                            variant={
+                                project.index === 3
+                                    ? "unit-turns"
+                                    : "onboarding"
+                            }
+                        />
                     ) : project.index === 2 ? (
                         <ProcessBoard images={CALL_CENTER_PROCESS_IMAGES} />
                     ) : project.index === 4 ? (
+                        null
+                    ) : project.strategy?.cards || project.index === 3 ? (
                         null
                     ) : (
                         <div className="project-detail__gallery">
@@ -1109,10 +1199,7 @@ export default async function ProjectPage({
                     className="case-study-section"
                     aria-labelledby="impact-title"
                 >
-                    <div className="case-study-section__head case-study-section__head--with-label">
-                        <span className="case-study-section__metadata-label">
-                            Decisions
-                        </span>
+                    <div className="case-study-section__head">
                         <h2 id="impact-title">Design Decisions</h2>
                     </div>
                     {project.index === 1 || project.index === 2 ? (
@@ -1131,6 +1218,28 @@ export default async function ProjectPage({
                                             <li key={detail}>{detail}</li>
                                         ))}
                                     </ul>
+                                </article>
+                            ))}
+                        </div>
+                    ) : project.decisions ? (
+                        <div className="decision-showcases selectable">
+                            {project.decisions.map((decision) => (
+                                <article
+                                    className="decision-showcase"
+                                    key={decision.title}
+                                >
+                                    <div className="decision-showcase__copy">
+                                        <h3>{decision.title}</h3>
+                                        <p>{decision.body}</p>
+                                    </div>
+                                    <figure className="decision-showcase__screen">
+                                        <Image
+                                            src={decision.image.src}
+                                            alt={decision.image.alt}
+                                            width={decision.image.width}
+                                            height={decision.image.height}
+                                        />
+                                    </figure>
                                 </article>
                             ))}
                         </div>
@@ -1153,21 +1262,18 @@ export default async function ProjectPage({
                     className="case-study-section"
                     aria-labelledby="final-product-title"
                 >
-                    <div className="case-study-section__head case-study-section__head--with-label">
-                        <span className="case-study-section__metadata-label">
-                            Final Product
-                        </span>
+                    <div className="case-study-section__head">
                         <h2 id="final-product-title">
-                            {project.index === 2
+                            {project.finalProduct?.title ?? (project.index === 2
                                 ? "From live conversations to connected workflows"
-                                : "From organization setup to go-live"}
+                                : "From organization setup to go-live")}
                         </h2>
                     </div>
                     <div className="case-study-section__copy prose selectable">
                         <p>
-                            {project.index === 2
+                            {project.finalProduct?.body ?? (project.index === 2
                                 ? "The final experience brought call handling, caller context, operational tasks, and post-call review into one connected system. It enabled agents to manage conversations, complete relevant tasks, transfer calls without losing context, and maintain a comprehensive record of every interaction for future reference."
-                                : "The final portal gave Accolade’s internal team one place to create organizations, complete setup, manage integrations, and track the information needed for go-live."}
+                                : "The final portal gave Accolade’s internal team one place to create organizations, complete setup, manage integrations, and track the information needed for go-live.")}
                         </p>
                         {project.index === 1 && (
                             <p>
@@ -1177,7 +1283,23 @@ export default async function ProjectPage({
                             </p>
                         )}
                     </div>
-                    {(project.index === 1 || project.index === 2) && (
+                    {project.finalProduct?.slides ? (
+                        <FinalProductSlides
+                            slideCount={project.finalProduct.slides.length}
+                            slideImages={project.finalProduct.slides.map(
+                                (slide) => slide.image,
+                            )}
+                            slideAltText={project.finalProduct.slides.map(
+                                (slide) => slide.alt,
+                            )}
+                            slideContent={project.finalProduct.slides.map(
+                                (slide) => ({
+                                    descriptionLead: slide.descriptionLead,
+                                    description: slide.description,
+                                }),
+                            )}
+                        />
+                    ) : (project.index === 1 || project.index === 2) && (
                         <FinalProductSlides
                             slideCount={
                                 project.index === 1 ? 8 : 11
@@ -1216,13 +1338,14 @@ export default async function ProjectPage({
                     className="case-study-section"
                     aria-labelledby="reflections-title"
                 >
-                    <div className="case-study-section__head case-study-section__head--with-label">
-                        <span className="case-study-section__metadata-label">
-                            Reflections
-                        </span>
+                    <div className="case-study-section__head">
                         <h2 id="reflections-title">Reflections</h2>
                     </div>
-                    {project.index === 1 ||
+                    {project.reflection ? (
+                        <div className="case-study-section__copy prose selectable">
+                            <p>{project.reflection}</p>
+                        </div>
+                    ) : project.index === 1 ||
                     project.index === 2 ||
                     project.index === 4 ? (
                         <div className="reflection-cards selectable">
@@ -1291,8 +1414,6 @@ export default async function ProjectPage({
                             </p>
                         </div>
                     </aside>
-                )}
-                    </>
                 )}
                 </div>
 

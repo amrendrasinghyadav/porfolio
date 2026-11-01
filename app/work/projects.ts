@@ -29,6 +29,21 @@ type Project = {
         cards?: Array<{
             title: string
             body: string
+            icon?: string
+        }>
+        flow?: Array<{
+            title: string
+            body: string
+            icon: string
+        }>
+        helpTitle?: string
+        helpItems?: string[]
+    }
+    overviewImpact?: {
+        outcomes: Array<{
+            title: string
+            body: string
+            icon: string
         }>
     }
     challenge?: {
@@ -42,12 +57,51 @@ type Project = {
             outro?: string
             icon?: "context" | "workflows" | "transfer" | "review"
         }>
+        summaryCards?: Array<{
+            eyebrow: string
+            title: string
+            body: string
+            icon: string
+        }>
+        detailCards?: Array<{
+            title: string
+            body: string
+            image?: {
+                src: string
+                alt: string
+            }
+        }>
     }
     strategy?: {
         metadata?: string
         title: string
         paragraphs: string[]
+        cards?: Array<{
+            title: string
+            body: string
+        }>
     }
+    decisions?: Array<{
+        title: string
+        body: string
+        image: {
+            src: string
+            alt: string
+            width: number
+            height: number
+        }
+    }>
+    finalProduct?: {
+        title: string
+        body: string
+        slides?: Array<{
+            image: string
+            alt: string
+            descriptionLead: string
+            description: string
+        }>
+    }
+    reflection?: string
 }
 
 function projectTitleToSlug(title: string): string {
@@ -225,17 +279,229 @@ const PROJECT_DEFINITIONS: Array<Omit<Project, "slug">> = [
     },
     {
         index: 3,
-        title: "Contributing to Accolade’s Design System",
+        title: "Unit Turns - Simplifying the Make-Ready Workflow",
         description:
-            "A collection of reusable components and patterns I contributed while designing Accolade’s core product experiences.",
-        image: "/projects/project-3-card-design-system.webp",
-        heroImage: "/projects/project-3-case-study-hero.webp",
+            "Designing a unified experience to streamline unit turnovers, coordinate maintenance workflows, and track readiness from move-out to move-in.",
+        image: "/projects/project-1-thumbnail.webp",
+        heroImage: "/projects/unit-turns-case-study-hero.webp",
         cardImages: [
-            "/projects/final-product-add-organization-empty-trimmed.svg",
-            "/projects/accolade-design-system.webp",
-            "/projects/project-3-card-design-system.webp",
-            "/projects/final-product-acco-frame-trimmed.svg",
+            "/projects/unit-turns-create-template.webp",
+            "/projects/unit-turns-dependency-conflict.webp",
+            "/projects/accolade-unit-turns.gif",
+            "/projects/unit-turns-turn-board.webp",
         ],
+        client: "Accolade",
+        team: [
+            "Product Designer (me)",
+            "Product Manager",
+            "2 Software Engineers",
+        ],
+        timeline: "8 weeks",
+        scope: "Desktop Web",
+        badges: [
+            { label: "Shipped", status: "success" },
+            { label: "B2B" },
+            { label: "Workflow Management" },
+        ],
+        overview: {
+            paragraphs: [
+                {
+                    before:
+                        "Preparing a rental unit for a new resident involves multiple inspections, repairs, work orders, and schedules that need to stay coordinated. For maintenance supervisors managing several units, keeping track of everything can become complex.",
+                },
+                {
+                    before:
+                        "Unit Turns brings these activities into one connected workflow, helping teams plan tasks, track progress, and manage the make-ready process from move-out to move-in.",
+                },
+            ],
+            flow: [
+                {
+                    title: "Move-out",
+                    body: "Unit vacates",
+                    icon: "/icons/accolade-building-2.svg",
+                },
+                {
+                    title: "Inspect",
+                    body: "Assess condition",
+                    icon: "/icons/accolade-eye.svg",
+                },
+                {
+                    title: "Make-ready",
+                    body: "Repairs, cleaning, and more",
+                    icon: "/icons/accolade-wrench.svg",
+                },
+                {
+                    title: "Unit ready",
+                    body: "Available for move-in",
+                    icon: "/icons/accolade-circle-check.svg",
+                },
+            ],
+            helpTitle: "What it helps teams do",
+            helpItems: [
+                "Create and manage customizable turn templates",
+                "Monitor unit turnovers and identify delays",
+                "Coordinate teams, schedules, and dependencies",
+                "Improve efficiency with automation and manual control",
+            ],
+        },
+        overviewImpact: {
+            outcomes: [
+                {
+                    title: "Better visibility into turnovers",
+                    body: "Supervisors can easily understand the status of each unit, identify delays, and see what needs attention without switching between different tools.",
+                    icon: "/icons/accolade-eye.svg",
+                },
+                {
+                    title: "Clearer workflow management",
+                    body: "Supervisors understand how tasks connect, which activities can happen together, and how dependencies affect the overall timeline.",
+                    icon: "/icons/accolade-workflow.svg",
+                },
+                {
+                    title: "Confidence in customization",
+                    body: "Teams feel comfortable creating and adjusting templates to match their property's needs without worrying about breaking the workflow.",
+                    icon: "/icons/accolade-pencil-line.svg",
+                },
+                {
+                    title: "Easier task coordination",
+                    body: "Supervisors feel more in control when assigning work, managing schedules, and coordinating technicians and vendors.",
+                    icon: "/icons/accolade-users-round.svg",
+                },
+            ],
+        },
+        challenge: {
+            title: "Challenge",
+            paragraphs: [
+                "Preparing a unit for its next resident involves multiple inspections, repairs, schedules, and teams. Each property follows different processes, while maintenance supervisors need to manage several turnovers within tight deadlines.",
+                "The challenge was to bring these connected workflows into one experience that is easy to set up, track, and manage.",
+            ],
+            detailCards: [
+                {
+                    title: "Bringing structure to interconnected tasks",
+                    body: "A single unit turn involves multiple inspections and work orders that may happen in sequence or at the same time. Each step has its own duration and dependencies. The challenge was to help supervisors organize these activities, set timelines, and understand how changes to one step affect the overall workflow.",
+                    image: {
+                        src: "/projects/unit-turns-workflow-network.webp",
+                        alt: "Connected workflow network",
+                    },
+                },
+                {
+                    title: "Supporting different property needs",
+                    body: "Each property may have different maintenance requirements, unit types, and timelines. The challenge was to maintain a consistent process across properties while allowing teams to customize workflows for their needs.",
+                    image: {
+                        src: "/projects/unit-turns-workflow-pipeline.webp",
+                        alt: "Configurable workflow pipeline",
+                    },
+                },
+                {
+                    title: "Bringing visibility and control together",
+                    body: "Supervisors need to track multiple turns, identify delays, and manage individual tasks. The challenge was to present all this information clearly while making it easy to access details, assign work, and update schedules.",
+                    image: {
+                        src: "/projects/unit-turns-productivity-dashboard.webp",
+                        alt: "Unit turnover dashboard showing task status and schedules",
+                    },
+                },
+            ],
+        },
+        strategy: {
+            title: "How I broke down the workflow",
+            paragraphs: [
+                "I focused on understanding how unit turnovers work, organizing the different workflows, and making complex tasks easier to manage.",
+            ],
+        },
+        decisions: [
+            {
+                title: "Using a visual timeline to build workflows",
+                body: "Instead of relying only on forms, the Template Builder uses a timeline to show steps, durations, and their order. This helps users understand how a unit turn is planned while configuring it.",
+                image: {
+                    src: "/projects/unit-turns-create-template.webp",
+                    alt: "Create template screen with a visual unit-turn timeline",
+                    width: 2048,
+                    height: 1280,
+                },
+            },
+            {
+                title: "Allowing flexibility while protecting task dependencies",
+                body: "Users can arrange steps and plan parallel activities. When a change conflicts with an existing dependency, the interface explains the conflict and provides a way to resolve it.",
+                image: {
+                    src: "/projects/unit-turns-dependency-conflict.webp",
+                    alt: "Dependency conflict dialog in the Template Builder",
+                    width: 2048,
+                    height: 1280,
+                },
+            },
+            {
+                title: "Making templates reusable and customizable",
+                body: "The design supports shared templates that can be imported and adapted for individual communities. This reduces repeated setup while allowing properties to adjust their workflows.",
+                image: {
+                    src: "/projects/unit-turns-template-preview.webp",
+                    alt: "Template preview screen for customizing a shared workflow",
+                    width: 2048,
+                    height: 1280,
+                },
+            },
+            {
+                title: "Choosing a table layout for the Turn Board",
+                body: "The Turn Board presents units as rows and workflow steps as columns, making it easier to compare progress across several turns and quickly identify delayed or incomplete work.",
+                image: {
+                    src: "/projects/unit-turns-turn-board.webp",
+                    alt: "Turn Board table showing unit status and workflow progress",
+                    width: 2048,
+                    height: 1280,
+                },
+            },
+            {
+                title: "Keeping task details close to the main workflow",
+                body: "Work order and inspection details are accessible from the Turn Board, allowing supervisors to review tasks, assign work, and manage schedules without losing the context of the overall turn.",
+                image: {
+                    src: "/projects/unit-turns-create-work-order.webp",
+                    alt: "Create Work Order panel opened from the Turn Board",
+                    width: 2048,
+                    height: 1280,
+                },
+            },
+        ],
+        finalProduct: {
+            title: "From move-out to move-in ready",
+            body: "A closer look at the key screens and workflows that bring template creation, turn tracking, inspections, and maintenance tasks into one connected experience.",
+            slides: [
+                {
+                    image: "/projects/unit-turns-template-builder.webp",
+                    alt: "Template Builder with a visual workflow timeline",
+                    descriptionLead: "Template Builder",
+                    description:
+                        "The Template Builder helps users create and manage turn workflows with a visual timeline and editable steps, making it easier to organize tasks and customize workflows for different property needs.",
+                },
+                {
+                    image: "/projects/unit-turns-add-step-configuration.webp",
+                    alt: "Add Step panel for configuring a workflow task",
+                    descriptionLead: "Adding and Configuring Steps",
+                    description:
+                        "The Add Step panel lets users customize each step by setting task types, dependencies, duration, and assignments, helping them build workflows that fit their property's needs.",
+                },
+                {
+                    image: "/projects/unit-turns-updated-steps-list.webp",
+                    alt: "Updated workflow steps list with task details",
+                    descriptionLead: "Visual Workflow Preview",
+                    description:
+                        "The visual timeline helps users see the full turn process, including task order, duration, and parallel steps, while keeping each step easy to review and edit.",
+                },
+                {
+                    image: "/projects/unit-turns-turn-board-task-details.webp",
+                    alt: "Task details popover opened from the Turn Board",
+                    descriptionLead: "Viewing Task Details",
+                    description:
+                        "The Turn Board lets users quickly view tasks within each workflow step, check their status, see assignments and schedules, and add new tasks without leaving the board.",
+                },
+                {
+                    image: "/projects/unit-turns-turn-details.webp",
+                    alt: "Turn Details view with timeline, tasks, and scheduling",
+                    descriptionLead: "Turn Details",
+                    description:
+                        "The Turn Details view gives users a complete picture of a unit turn, including its timeline, current status, assigned tasks, and scheduling details, making it easier to track progress and manage the full workflow in one place.",
+                },
+            ],
+        },
+        reflection:
+            "Working on Unit Turns taught me to look beyond individual screens and understand how the whole experience connects. I learned that good design is not about removing complexity, but making it easier for users to understand and manage. This project helped me think more carefully about my design choices and their impact on the user experience.",
     },
     {
         index: 4,
@@ -296,10 +562,18 @@ const PROJECT_DEFINITIONS: Array<Omit<Project, "slug">> = [
     },
 ]
 
-export const PROJECTS: Project[] = PROJECT_DEFINITIONS.map((project) => ({
-    ...project,
-    slug: projectTitleToSlug(project.title),
-}))
+const PROJECT_DISPLAY_ORDER = [3, 1, 2, 4]
+
+export const PROJECTS: Project[] = [...PROJECT_DEFINITIONS]
+    .sort(
+        (first, second) =>
+            PROJECT_DISPLAY_ORDER.indexOf(first.index) -
+            PROJECT_DISPLAY_ORDER.indexOf(second.index),
+    )
+    .map((project) => ({
+        ...project,
+        slug: projectTitleToSlug(project.title),
+    }))
 
 export function getProject(slug: string): Project | undefined {
     return PROJECTS.find((project) => project.slug === slug)

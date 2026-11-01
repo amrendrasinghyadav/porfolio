@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, type ReactNode } from "react"
 
+const SCROLL_TRAVEL_MULTIPLIER = 1
+
 type DesktopProjectRailProps = {
     children: ReactNode
 }
@@ -59,6 +61,7 @@ export default function DesktopProjectRail({
             if (!desktopQuery.matches) {
                 rail.style.removeProperty("transform")
                 section.style.removeProperty("--project-rail-travel")
+                section.style.removeProperty("--project-rail-scroll-travel")
                 railTravel = 0
                 sectionTop = 0
                 verticalTravel = 1
@@ -81,6 +84,9 @@ export default function DesktopProjectRail({
                     (viewportWidth - leftInset - rightInset) -
                     railLeadingPadding,
             )
+            const nextScrollTravel = Math.ceil(
+                nextRailTravel * SCROLL_TRAVEL_MULTIPLIER,
+            )
 
             if (
                 !hasMeasured ||
@@ -91,14 +97,15 @@ export default function DesktopProjectRail({
                     `${nextRailTravel}px`,
                 )
             }
+            section.style.setProperty(
+                "--project-rail-scroll-travel",
+                `${nextScrollTravel}px`,
+            )
 
             railTravel = nextRailTravel
             sectionTop =
                 section.getBoundingClientRect().top + window.scrollY
-            verticalTravel = Math.max(
-                1,
-                section.offsetHeight - window.innerHeight,
-            )
+            verticalTravel = Math.max(1, nextScrollTravel)
             lastTranslateX = Number.NaN
             hasMeasured = true
             requestTransformUpdate()
