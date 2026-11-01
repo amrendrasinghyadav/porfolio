@@ -283,7 +283,7 @@ const PROJECT_DEFINITIONS: Array<Omit<Project, "slug">> = [
         description:
             "Designing a unified experience to streamline unit turnovers, coordinate maintenance workflows, and track readiness from move-out to move-in.",
         image: "/projects/project-1-thumbnail.webp",
-        heroImage: "/projects/unit-turns-hero-macbook.webp",
+        heroImage: "/projects/unit-turns-hero-laptop-lossless.webp",
         cardImages: [
             "/projects/unit-turns-create-template.webp",
             "/projects/unit-turns-dependency-conflict.webp",
