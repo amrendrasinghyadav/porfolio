@@ -14,7 +14,8 @@ function announceIntroComplete() {
  */
 export default function Intro() {
     const pathname = usePathname()
-    const [shouldPlay] = useState(() => pathname === "/")
+    const initialPathname = useRef(pathname)
+    const [shouldPlay, setShouldPlay] = useState(false)
     const [quoteIn, setQuoteIn] = useState(false)
     const [authorIn, setAuthorIn] = useState(false)
     const [exiting, setExiting] = useState(false)
@@ -26,6 +27,25 @@ export default function Intro() {
 
     const unlock = () =>
         document.documentElement.classList.remove("intro-lock")
+
+    useEffect(() => {
+        const frame = window.requestAnimationFrame(() => {
+            const hero = document.querySelector<HTMLElement>(".work-hero")
+            const heroBottom = hero
+                ? hero.offsetTop + hero.offsetHeight
+                : window.innerHeight
+            const isAtHero = window.scrollY < heroBottom
+            const isSectionOrAboutLink = window.location.hash.length > 0
+
+            setShouldPlay(
+                initialPathname.current === "/" &&
+                    !isSectionOrAboutLink &&
+                    isAtHero,
+            )
+        })
+
+        return () => window.cancelAnimationFrame(frame)
+    }, [])
 
     const skip = useCallback(() => {
         if (done.current) return
