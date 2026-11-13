@@ -88,6 +88,10 @@ export default function InteractiveWorkHero() {
                         mindset, connecting user needs, technical complexity,
                         and business outcomes.
                     </p>
+                    <p className="work-hero__system-status">
+                        <span aria-hidden="true" />
+                        WIP · Agent-ready design system
+                    </p>
                 </div>
             </div>
 

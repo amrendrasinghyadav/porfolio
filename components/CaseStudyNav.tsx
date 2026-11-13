@@ -3,6 +3,7 @@
 import {
     useCallback,
     useEffect,
+    useLayoutEffect,
     useRef,
     useState,
     type MouseEvent,
@@ -19,6 +20,7 @@ type CaseStudyNavProps = {
 
 export default function CaseStudyNav({ sections }: CaseStudyNavProps) {
     const [activeId, setActiveId] = useState("")
+    const [jumpTargetId, setJumpTargetId] = useState<string | null>(null)
     const frame = useRef<number | null>(null)
 
     const updateActiveSection = useCallback(() => {
@@ -99,6 +101,22 @@ export default function CaseStudyNav({ sections }: CaseStudyNavProps) {
         }
     }, [sections, updateActiveSection])
 
+    useLayoutEffect(() => {
+        if (!jumpTargetId) return
+
+        // The temporary attribute disables the site's default smooth scrolling
+        // for this section jump only, preventing intermediate active states.
+        document
+            .getElementById(jumpTargetId)
+            ?.scrollIntoView({ behavior: "auto", block: "start" })
+
+        const resetFrame = window.requestAnimationFrame(() => {
+            setJumpTargetId(null)
+        })
+
+        return () => window.cancelAnimationFrame(resetFrame)
+    }, [jumpTargetId])
+
     const handleClick = (
         event: MouseEvent<HTMLButtonElement>,
         sectionId: string
@@ -108,11 +126,15 @@ export default function CaseStudyNav({ sections }: CaseStudyNavProps) {
 
         event.preventDefault()
         setActiveId(sectionId)
-        target.scrollIntoView({ behavior: "smooth", block: "start" })
+        setJumpTargetId(sectionId)
     }
 
     return (
-        <nav className="case-study-nav" aria-label="Case study sections">
+        <nav
+            className="case-study-nav"
+            aria-label="Case study sections"
+            data-is-jumping={jumpTargetId ? "true" : undefined}
+        >
             <ul className="case-study-nav__list">
                 {sections.map((section) => {
                     const active = activeId === section.id
