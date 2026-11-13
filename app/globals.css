@@ -246,11 +246,10 @@ a {
         0 7px 14px -13px rgba(50, 60, 79, 0.28);
     color: var(--ink-soft);
     font-family: var(--font-sans);
-    font-size: 0.66rem;
-    font-weight: 500;
-    letter-spacing: 0.07em;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.01em;
     line-height: 1;
-    text-transform: uppercase;
     white-space: nowrap;
 }
 
@@ -260,6 +259,17 @@ a {
     border-radius: 50%;
     background: #8a9389;
     box-shadow: 0 0 0 2px rgba(138, 147, 137, 0.12);
+    animation: hero-status-pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes hero-status-pulse {
+    0%,
+    100% {
+        opacity: 0.52;
+    }
+    50% {
+        opacity: 1;
+    }
 }
 
 .work-hero__objects {
@@ -876,6 +886,10 @@ a {
     .hero-folder__logo,
     .hero-folder__label {
         transition: none;
+    }
+
+    .work-hero__system-status span {
+        animation: none;
     }
 }
 

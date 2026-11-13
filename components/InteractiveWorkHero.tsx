@@ -90,7 +90,7 @@ export default function InteractiveWorkHero() {
                     </p>
                     <p className="work-hero__system-status">
                         <span aria-hidden="true" />
-                        WIP · Agent-ready design system
+                        Currently working on - Agent-ready design system
                     </p>
                 </div>
             </div>
